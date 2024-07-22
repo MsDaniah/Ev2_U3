@@ -1,0 +1,441 @@
+﻿@model IEnumerable<MercDevs_ej2.Models.Datosfichatecnica>
+
+<style>
+    .table-pink {
+        background-color: #ffd6d6;
+        border-color: #ff9999;
+    }
+
+        .table-pink th, .table-pink td {
+            border-color: #ff9999;
+        }
+
+        .table-pink thead {
+            background-color: #ffb3b3;
+        }
+
+        .table-pink tbody tr:nth-child(even) {
+            background-color: #ffcccc;
+        }
+
+        .table-pink tbody tr:nth-child(odd) {
+            background-color: #ffd6d6;
+        }
+
+        .table-pink th {
+            background-color: #ffb3b3;
+        }
+
+    .border-end {
+        border-right: 1px solid #ff9999;
+    }
+</style>
+
+<center>
+    <h1>Datos Ficha Técnica</h1>
+</center>
+
+<br />
+<br />
+
+@foreach (var item in Model)
+{
+    //Identificación Equipo
+    <table class="table table-pink border border-3">
+        <thead style="text-align:center">
+            <tr>
+                <th class="fw-bold align-content-center" colspan="3">Datos Ficha Técnica</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="border-end">ID: @item.IdDatosFichaTecnica</td>
+                <td class="border-end">Fecha Inicio: @item.FechaInicio</td>
+                <td class="border-end">Fecha Finalización: @item.FechaFinalizacion</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <br />
+
+    //Datos del Cliente
+    <table class="table table-pink border border-3">
+        <thead style="text-align:center">
+            <tr>
+                <th colspan="6">Datos del Cliente</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (item.RecepcionEquipo?.IdClienteNavigation != null)
+            {
+                <tr>
+                    <td colspan="2" class="border-end">Nombre:
+                        @item.RecepcionEquipo.IdClienteNavigation.Nombre</td>
+                    <td colspan="2" class="border-end">Apellido:
+                        @item.RecepcionEquipo.IdClienteNavigation.Apellido</td>
+                </tr>
+                <tr>
+                    <td class="border-end">Celular:
+                        @item.RecepcionEquipo.IdClienteNavigation.Telefono</td>
+                    <td class="border-end">Correo:
+                        @item.RecepcionEquipo.IdClienteNavigation.Correo</td>
+                    <td class="border-end">Dirección:
+                        @item.RecepcionEquipo.IdClienteNavigation.Direccion</td>
+                </tr>
+            }
+            else
+            {
+                <tr>
+                    <td>No hay datos del cliente disponibles</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <br />
+    
+    //Datos Recepcion de Equipos
+    <table class="table table-pink border border-3">
+        <thead style="text-align:center">
+            <tr>
+                <th colspan="10" class="align-content-center">Datos de Recepcion de equipos</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="border-end">Tipo:
+                    @{
+                        string tipoEquipo = "";
+                        switch (item.RecepcionEquipo.TipoPc)
+                        {
+                            case 0:
+                                tipoEquipo = "PC Torre";
+                                break;
+                            case 1:
+                                tipoEquipo = "Notebook";
+                                break;
+                            case 2:
+                                tipoEquipo = "All-In-One";
+                                break;
+                            default:
+                                tipoEquipo = "Desconocido";
+                                break;
+                        }
+                        @tipoEquipo
+                    }
+                </td>
+                
+                <td class="border-end">Accesorios:
+                    @item.RecepcionEquipo.Accesorio
+                </td>
+
+                <td class="border-end">Marca:
+                    @item.RecepcionEquipo.MarcaPc
+                </td>
+
+                <td class="border-end">Modelo:
+                    @item.RecepcionEquipo.ModeloPc
+                </td>
+                <td class="border-end">Gráfico:
+                    @item.RecepcionEquipo.Grafico
+                </td>
+            </tr>
+            <tr>
+                <td class="border-end">Nro. Serie:
+                    @item.RecepcionEquipo.Nserie
+                </td>
+
+                <td class="border-end">RAM:
+                    @{
+                        string memoriaRam = "";
+                        switch (item.RecepcionEquipo.CapacidadRam)
+                        {
+                            case 0:
+                                memoriaRam = "4 GB";
+                                break;
+                            case 1:
+                                memoriaRam = "6 GB";
+                                break;
+                            case 2:
+                                memoriaRam = "8 GB";
+                                break;
+                            case 3:
+                                memoriaRam = "12 GB";
+                                break;
+                            case 4:
+                                memoriaRam = "Otro";
+                                break;
+                        }
+                    }
+                    @memoriaRam
+                 </td>
+
+                <td class="border-end">Tipo Almacenamiento:
+                    @{
+                        string almacenamiento = "";
+                        switch (item.RecepcionEquipo.TipoAlmacenamiento)
+                        {
+                            case 0:
+                                almacenamiento = "HDD";
+                                break;
+                            case 1:
+                                almacenamiento = "SDD Sata";
+                                break;
+                            case 2:
+                                almacenamiento = "SDD M.2";
+                                break;
+                            case 3:
+                                almacenamiento = "SSD NVM M.2";
+                                break;
+                        }
+                        
+                    }
+                    @almacenamiento
+                 </td>
+                <td class="border-end">Capacidad (GB):
+                    @item.RecepcionEquipo.CapacidadAlmacenamiento
+                </td>
+                <td class="border-end">Tipo GPU:
+                    @{
+                        string gpu = "";
+                        switch (item.RecepcionEquipo.TipoGpu)
+                        {
+                            case 0:
+                                gpu = "Chip Integrado";
+                                break;
+                            case 1:
+                                gpu = "Tarjeta";
+                                break;
+                            case 2:
+                                gpu = "Otro";
+                                break;
+                        }
+                        @gpu
+                    }
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    //Diagnostico
+    <table class="table table-pink border border-3">
+        <thead style="text-align:center">
+            <tr>
+                <th colspan="3" class="align-content-center">Diagnóstico(s)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="fw-bold">
+                <td class="border-end">N°</td>
+                <td class="border-end">Descripción</td>
+                <td class="border-end">Tiempo</td>
+            </tr>
+            <tr>
+                <td class="border-end">1</td>
+                @if (item.Diagnosticosolucions == null || !item.Diagnosticosolucions.Any())
+                {
+                    <td colspan="1" class="border-end" >No hay diagnóstico disponible.</td>
+                    <td colspan="1" class="border-end"></td>
+
+                }
+                else
+                {
+                    foreach (var diagnostico in item.Diagnosticosolucions)
+                    {
+                        <td colspan="1" class="border-end">@diagnostico.DescripcionDiagnostico</td>
+                        <td colspan="1" class="border-end"></td>
+                    }
+                }
+            </tr>
+            <tr>
+                <td class="border-end">2</td>
+                @if (item.Diagnosticosolucions == null || !item.Diagnosticosolucions.Any())
+                {
+                    <td colspan="1" class="border-end">No hay diagnóstico disponible.</td>
+                    <td colspan="1" class="border-end"></td>
+
+                }
+                else
+                {
+                    foreach (var diagnostico in item.Diagnosticosolucions)
+                    {
+                        <td colspan="1" class="border-end">@diagnostico.DescripcionDiagnostico</td>
+                        <td colspan="1" class="border-end"></td>
+                    }
+                }
+            </tr>
+            <tr>
+                <td class="border-end">3</td>
+                @if (item.Diagnosticosolucions == null || !item.Diagnosticosolucions.Any())
+                {
+                    <td colspan="1" class="border-end">No hay diagnóstico disponible.</td>
+                    <td colspan="1" class="border-end"></td>
+
+                }
+                else
+                {
+                    foreach (var diagnostico in item.Diagnosticosolucions)
+                    {
+                        <td colspan="1" class="border-end">@diagnostico.DescripcionDiagnostico</td>
+                        <td colspan="1" class="border-end"></td>
+                    }
+                }
+            </tr>
+            <tr>
+                <td class="border-end">4</td>
+                @if (item.Diagnosticosolucions == null || !item.Diagnosticosolucions.Any())
+                {
+                    <td colspan="1" class="border-end">No hay diagnóstico disponible.</td>
+                    <td colspan="1" class="border-end"></td>
+
+                }
+                else
+                {
+                    foreach (var diagnostico in item.Diagnosticosolucions)
+                    {
+                        <td colspan="1" class="border-end">@diagnostico.DescripcionDiagnostico</td>
+                        <td colspan="1" class="border-end"></td>
+                    }
+                }
+            </tr>
+        </tbody>
+    </table>
+
+
+    //Soluciones y/o intervenciones realizadas
+
+    <table class="table table-pink border border-3">
+        <thead style="text-align:center">
+            <tr>
+                <th colspan="3">Soluciones y/o Intervenciones realizadas</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="fw-bold">
+                <td class="border-end">N°</td>
+                <td class="border-end">Descripción</td>
+                <td class="border-end">Tiempo</td>
+            </tr>
+            <tr>
+                <td class="border-end">1</td>
+                @if (item.Diagnosticosolucions == null || !item.Diagnosticosolucions.Any())
+                {
+                    <td class="border-end" colspan="1">No hay solución disponible.</td>
+                    <td colspan="1" class="border-end"></td>
+                }
+                else
+                {
+                    foreach (var solucion in item.Diagnosticosolucions)
+                    {
+                        <td class="border-end">@solucion.DescripcionSolucion</td>
+                        <td colspan="1" class="border-end"></td>
+                    }
+                }
+            </tr>
+            <tr>
+                <td class="border-end">2</td>
+                @if (item.Diagnosticosolucions == null || !item.Diagnosticosolucions.Any())
+                {
+                    <td class="border-end" colspan="1">No hay solución disponible.</td>
+                    <td colspan="1" class="border-end"></td>
+                }
+                else
+                {
+                    foreach (var solucion in item.Diagnosticosolucions)
+                    {
+                        <td class="border-end">@solucion.DescripcionSolucion</td>
+                        <td colspan="1" class="border-end"></td>
+                    }
+                }
+            </tr>
+            <tr>
+                <td class="border-end">3</td>
+                @if (item.Diagnosticosolucions == null || !item.Diagnosticosolucions.Any())
+                {
+                    <td class="border-end" colspan="1">No hay solución disponible.</td>
+                    <td colspan="1" class="border-end"></td>
+                }
+                else
+                {
+                    foreach (var solucion in item.Diagnosticosolucions)
+                    {
+                        <td class="border-end">@solucion.DescripcionSolucion</td>
+                        <td colspan="1" class="border-end"></td>
+                    }
+                }
+            </tr>
+            <tr>
+                <td class="border-end">4</td>
+                @if (item.Diagnosticosolucions == null || !item.Diagnosticosolucions.Any())
+                {
+                    <td class="border-end" colspan="1">No hay solución disponible.</td>
+                    <td colspan="1" class="border-end"></td>
+                }
+                else
+                {
+                    foreach (var solucion in item.Diagnosticosolucions)
+                    {
+                        <td class="border-end">@solucion.DescripcionSolucion</td>
+                        <td colspan="1" class="border-end"></td>
+                    }
+                }
+            </tr>
+            <tr>
+                <td class="border-end">5</td>
+                @if (item.Diagnosticosolucions == null || !item.Diagnosticosolucions.Any())
+                {
+                    <td class="border-end" colspan="1">No hay solución disponible.</td>
+                    <td colspan="1" class="border-end"></td>
+                }
+                else
+                {
+                    foreach (var solucion in item.Diagnosticosolucions)
+                    {
+                        <td class="border-end">@solucion.DescripcionSolucion</td>
+                        <td colspan="1" class="border-end"></td>
+                    }
+                }
+            </tr>
+            <tr>
+                <td class="border-end">6</td>
+                @if (item.Diagnosticosolucions == null || !item.Diagnosticosolucions.Any())
+                {
+                    <td class="border-end" colspan="1">No hay solución disponible.</td>
+                    <td colspan="1" class="border-end"></td>
+                }
+                else
+                {
+                    foreach (var solucion in item.Diagnosticosolucions)
+                    {
+                        <td class="border-end">@solucion.DescripcionSolucion</td>
+                        <td colspan="1" class="border-end"></td>
+                    }
+                }
+            </tr>
+        </tbody>
+    </table>
+
+
+    //Observaciones
+    <table class="table table-pink border border-3">
+        <thead style="text-align:center">
+            <tr>
+                <th>Observaciones y/o Recomendaciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="border-end" colspan="2">
+                    @if (string.IsNullOrEmpty(item.PobservacionesRecomendaciones))
+                    {
+                        <p>No hay observaciones.</p>
+                    }
+                    else
+                    {
+                        <p>@item.PobservacionesRecomendaciones</p>
+                    }
+                </td>
+            </tr>
+        </tbody>
+    </table>
+}
